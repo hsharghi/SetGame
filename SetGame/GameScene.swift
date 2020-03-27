@@ -13,7 +13,11 @@ import SetGameEngine
 class GameCard: SKSpriteNode {
     
     var card: Card
-    var isSelected: Bool = false
+    var isSelected: Bool = false {
+        didSet {
+            setSelected(selected: isSelected)
+        }
+    }
     
     init(card: Card) {
         self.card = card
@@ -23,7 +27,10 @@ class GameCard: SKSpriteNode {
         var icons: [SKSpriteNode]
         let shader = GameCard.createColorNonAlpha(color: GameCard.getCardColor(card: card))
         icons = (1...card.count).map { _ in SKSpriteNode(texture: SKTexture(imageNamed: GameCard.getFileName(for: card))) }
-        icons.forEach { $0.shader = shader }
+        icons.forEach { icon in
+            icon.shader = shader
+            icon.name = "card"
+        }
         switch card.count {
         case 1:
             if let icon = icons.first {
@@ -68,7 +75,6 @@ class GameCard: SKSpriteNode {
         return SKShader(fromFile: "SHKColorNonAlpha", uniforms: uniforms)
     }
     
-    
     static func getFileName(for card: Card) -> String {
         var name = ""
         switch card.shape {
@@ -105,21 +111,31 @@ class GameCard: SKSpriteNode {
         }
     }
     
+    private func setSelected(selected: Bool) {
+        if selected {
+            self.zPosition = 100
+            self.run(SKAction.scale(to: self.xScale * 1.05, duration: 0.2))
+        } else {
+            self.zPosition = 0
+            self.run(SKAction.scale(to: self.xScale / 1.05, duration: 0.2))
+        }
+    }
 }
 
 class GameScene: SKScene {
     
     var game = Engine(players: 1)
     var cards = [Card]()
+    var selectedCards = Set<GameCard>()
     
-    let cardSpacing: CGFloat = 10
+    let cardSpacing: CGFloat = 15
     let columns = 4
     let rows = 3
     
     override func didMove(to view: SKView) {
         cards = game.draw()
-        //        let width = min(2 * estimatedWidth, estimatedHeight)
-        
+//        cards = game.addCards()
+
         let sampleCard = GameCard(card: cards.first!)
         let ratio = sampleCard.size.width / sampleCard.size.height
         
@@ -138,13 +154,11 @@ class GameScene: SKScene {
         var row = 1
         for j in stride(from: height / 2, through: toHeight, by: height) {
             for i in stride(from: width / 2, through: toWidth, by: width) {
+                if item >= 15 || row > rows || column > columns { continue }
                 print("row: \(row) - column: \(column)")
-                if item >= 12 { continue }
                 let card = GameCard(card: cards[item])
-                print(cards[item])
                 card.position = CGPoint(x: i + CGFloat(column) * cardSpacing, y: j + CGFloat(row) * cardSpacing)
                 card.setScale(scale)
-                print(card.position)
                 addChild(card)
                 item += 1
                 column += 1
@@ -154,6 +168,22 @@ class GameScene: SKScene {
         }
     }
     
+    func toggleCardSelection(card: GameCard) {
+        if !card.isSelected {
+            addToSelection(card: card)
+        } else {
+            if let index = selectedCards.firstIndex(of: card) {
+                selectedCards.remove(at: index)
+            }
+        }
+    }
+    
+    func addToSelection(card: GameCard) {
+        if selectedCards.count == 3 {
+            selectedCards.remove(at: selectedCards.index(selectedCards.startIndex, offsetBy: selectedCards.count - 1))
+        }
+        selectedCards.insert(card)
+    }
     
     func touchDown(atPoint pos : CGPoint) {
     }
@@ -163,27 +193,40 @@ class GameScene: SKScene {
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        
+        if let card = nodes(at: pos).first(where: { $0 is GameCard }) as? GameCard {
+            toggleCardSelection(card: card)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        children.forEach { (node) in
+            guard let card = node as? GameCard else { return }
+            if selectedCards.contains(card) {
+                if !card.isSelected {
+                    card.isSelected = true
+                }
+            } else {
+                if card.isSelected {
+                    card.isSelected = false
+                }
+            }
+        }
     }
 }

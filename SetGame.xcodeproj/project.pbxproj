@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */; };
 		0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC24242CC6A6004D166A /* AppDelegate.swift */; };
 		0F54CC27242CC6A6004D166A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC26242CC6A6004D166A /* GameScene.sks */; };
 		0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC2A242CC6A6004D166A /* GameScene.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+Extensions.swift"; sourceTree = "<group>"; };
 		0F54CC21242CC6A6004D166A /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F54CC24242CC6A6004D166A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F54CC26242CC6A6004D166A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				0F54CC33242CC6AC004D166A /* LaunchScreen.storyboard */,
 				0F54CC36242CC6AC004D166A /* Info.plist */,
 				0F59C825242D6E7A00A05998 /* Shaders */,
+				0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */,
 				0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */,
 				0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */,
+				0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,7 +410,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.softworks.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -423,7 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.softworks.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
