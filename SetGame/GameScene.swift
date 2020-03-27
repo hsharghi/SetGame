@@ -8,78 +8,178 @@
 
 import SpriteKit
 import GameplayKit
+import SetGameEngine
+
+class GameCard: SKSpriteNode {
+    
+    var card: Card
+    var isSelected: Bool = false
+    
+    init(card: Card) {
+        self.card = card
+        let bgtexture = SKTexture(imageNamed: "card")
+        super.init(texture: bgtexture, color: SKColor.clear, size: bgtexture.size())
+        
+        var icons: [SKSpriteNode]
+        let shader = GameCard.createColorNonAlpha(color: GameCard.getCardColor(card: card))
+        icons = (1...card.count).map { _ in SKSpriteNode(texture: SKTexture(imageNamed: GameCard.getFileName(for: card))) }
+        icons.forEach { $0.shader = shader }
+        switch card.count {
+        case 1:
+            if let icon = icons.first {
+                icon.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+                self.addChild(icon)
+            }
+        case 2:
+            let icon1 = icons[0]
+            let icon2 = icons[1]
+            icon1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + icon1.size.height - 25)
+            icon2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - icon1.size.height + 25)
+            self.addChild(icon1)
+            self.addChild(icon2)
+            
+        case 3:
+            let icon1 = icons[0]
+            let icon2 = icons[1]
+            let icon3 = icons[2]
+            icon1.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            icon2.position = CGPoint(x: self.frame.midX, y: self.frame.midY + icon1.size.height + 50)
+            icon3.position = CGPoint(x: self.frame.midX, y: self.frame.midY - icon1.size.height - 50)
+            self.addChild(icon1)
+            self.addChild(icon2)
+            self.addChild(icon3)
+            
+        default: print("eybaba \(card.count)")
+        }
+        
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    static func createColorNonAlpha(color: SKColor) -> SKShader {
+        let uniforms: [SKUniform] = [
+            SKUniform(name: "u_color", color: color)
+        ]
+        
+        return SKShader(fromFile: "SHKColorNonAlpha", uniforms: uniforms)
+    }
+    
+    
+    static func getFileName(for card: Card) -> String {
+        var name = ""
+        switch card.shape {
+        case .capsule:
+            name = "capsule"
+        case .eyebrow:
+            name = "eyebrow"
+        case .rhombus:
+            name = "rhombus"
+        }
+        
+        name += "-"
+        
+        switch card.fill {
+        case .empty:
+            name += "empty"
+        case .hatch:
+            name += "hatch"
+        case .solid:
+            name += "solid"
+        }
+        
+        return name
+    }
+    
+    static func getCardColor(card: Card) -> SKColor {
+        switch card.color {
+        case .blue:
+            return .blue
+        case .green:
+            return .green
+        case .red:
+            return .red
+        }
+    }
+    
+}
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var game = Engine(players: 1)
+    var cards = [Card]()
+    
+    let cardSpacing: CGFloat = 10
+    let columns = 4
+    let rows = 3
     
     override func didMove(to view: SKView) {
+        cards = game.draw()
+        //        let width = min(2 * estimatedWidth, estimatedHeight)
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
+        let sampleCard = GameCard(card: cards.first!)
+        let ratio = sampleCard.size.width / sampleCard.size.height
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+        let estimatedWidth = (frame.width - CGFloat(columns + 1) * cardSpacing) / CGFloat(columns)
+        let estimatedHeight = (frame.height - CGFloat(rows + 1) * cardSpacing) / CGFloat(rows)
+        let width = min(estimatedWidth, estimatedHeight * ratio)
+        let height = width / ratio
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        let scale = width / sampleCard.size.width
+        var item = 0
+    
+        let toHeight = height * CGFloat(rows) + CGFloat(rows + 1) * cardSpacing
+        let toWidth = width * CGFloat(columns) + CGFloat(columns + 1) * cardSpacing
+                
+        var column = 1
+        var row = 1
+        for j in stride(from: height / 2, through: toHeight, by: height) {
+            for i in stride(from: width / 2, through: toWidth, by: width) {
+                print("row: \(row) - column: \(column)")
+                if item >= 12 { continue }
+                let card = GameCard(card: cards[item])
+                print(cards[item])
+                card.position = CGPoint(x: i + CGFloat(column) * cardSpacing, y: j + CGFloat(row) * cardSpacing)
+                card.setScale(scale)
+                print(card.position)
+                addChild(card)
+                item += 1
+                column += 1
+            }
+            row += 1
+            column = 1
         }
     }
     
     
     func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
+        
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        
     }
     
     

@@ -3,19 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC24242CC6A6004D166A /* AppDelegate.swift */; };
 		0F54CC27242CC6A6004D166A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC26242CC6A6004D166A /* GameScene.sks */; };
-		0F54CC29242CC6A6004D166A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC28242CC6A6004D166A /* Actions.sks */; };
 		0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC2A242CC6A6004D166A /* GameScene.swift */; };
 		0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC2C242CC6A6004D166A /* GameViewController.swift */; };
 		0F54CC30242CC6A6004D166A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC2E242CC6A6004D166A /* Main.storyboard */; };
 		0F54CC32242CC6AC004D166A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC31242CC6AC004D166A /* Assets.xcassets */; };
 		0F54CC35242CC6AC004D166A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC33242CC6AC004D166A /* LaunchScreen.storyboard */; };
 		0F54CC40242CC6AC004D166A /* SetGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC3F242CC6AC004D166A /* SetGameTests.swift */; };
+		0F54CC4D242CC855004D166A /* SetGameEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0F54CC4C242CC855004D166A /* SetGameEngine */; };
+		0F59C822242D015D00A05998 /* SHKColorNonAlpha.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */; };
+		0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +34,6 @@
 		0F54CC21242CC6A6004D166A /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F54CC24242CC6A6004D166A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F54CC26242CC6A6004D166A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		0F54CC28242CC6A6004D166A /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		0F54CC2A242CC6A6004D166A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		0F54CC2C242CC6A6004D166A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		0F54CC2F242CC6A6004D166A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -42,6 +43,9 @@
 		0F54CC3B242CC6AC004D166A /* SetGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F54CC3F242CC6AC004D166A /* SetGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameTests.swift; sourceTree = "<group>"; };
 		0F54CC41242CC6AD004D166A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0F54CC4A242CC7F6004D166A /* SetGameEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SetGameEngine; path = ../SetGameEngine; sourceTree = "<group>"; };
+		0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SHKColorNonAlpha.fsh; sourceTree = "<group>"; };
+		0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderKitExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F54CC4D242CC855004D166A /* SetGameEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +73,8 @@
 				0F54CC23242CC6A6004D166A /* SetGame */,
 				0F54CC3E242CC6AC004D166A /* SetGameTests */,
 				0F54CC22242CC6A6004D166A /* Products */,
+				0F54CC4A242CC7F6004D166A /* SetGameEngine */,
+				0F54CC4B242CC855004D166A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,13 +92,13 @@
 			children = (
 				0F54CC24242CC6A6004D166A /* AppDelegate.swift */,
 				0F54CC26242CC6A6004D166A /* GameScene.sks */,
-				0F54CC28242CC6A6004D166A /* Actions.sks */,
 				0F54CC2A242CC6A6004D166A /* GameScene.swift */,
 				0F54CC2C242CC6A6004D166A /* GameViewController.swift */,
 				0F54CC2E242CC6A6004D166A /* Main.storyboard */,
 				0F54CC31242CC6AC004D166A /* Assets.xcassets */,
 				0F54CC33242CC6AC004D166A /* LaunchScreen.storyboard */,
 				0F54CC36242CC6AC004D166A /* Info.plist */,
+				0F59C825242D6E7A00A05998 /* Shaders */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -103,6 +110,22 @@
 				0F54CC41242CC6AD004D166A /* Info.plist */,
 			);
 			path = SetGameTests;
+			sourceTree = "<group>";
+		};
+		0F54CC4B242CC855004D166A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0F59C825242D6E7A00A05998 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */,
+				0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,6 +144,9 @@
 			dependencies = (
 			);
 			name = SetGame;
+			packageProductDependencies = (
+				0F54CC4C242CC855004D166A /* SetGameEngine */,
+			);
 			productName = SetGame;
 			productReference = 0F54CC21242CC6A6004D166A /* SetGame.app */;
 			productType = "com.apple.product-type.application";
@@ -186,11 +212,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F59C822242D015D00A05998 /* SHKColorNonAlpha.fsh in Resources */,
 				0F54CC30242CC6A6004D166A /* Main.storyboard in Resources */,
 				0F54CC27242CC6A6004D166A /* GameScene.sks in Resources */,
 				0F54CC32242CC6AC004D166A /* Assets.xcassets in Resources */,
 				0F54CC35242CC6AC004D166A /* LaunchScreen.storyboard in Resources */,
-				0F54CC29242CC6A6004D166A /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +237,7 @@
 				0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */,
 				0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */,
 				0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */,
+				0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.softworks.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -396,7 +423,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.softworks.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
@@ -473,6 +500,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0F54CC4C242CC855004D166A /* SetGameEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SetGameEngine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0F54CC19242CC6A6004D166A /* Project object */;
 }
