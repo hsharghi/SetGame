@@ -114,13 +114,38 @@ class GameCard: SKSpriteNode {
     private func setSelected(selected: Bool) {
         if selected {
             self.zPosition = 100
+            self.fadeTexture(to: SKTexture(imageNamed: "shadow"), duration: 0.2)
             self.run(SKAction.scale(to: self.xScale * 1.05, duration: 0.2))
         } else {
             self.zPosition = 0
+            self.fadeTexture(to: SKTexture(imageNamed: "card"), duration: 0.2)
             self.run(SKAction.scale(to: self.xScale / 1.05, duration: 0.2))
         }
     }
+    
+    func fadeTexture(newTexture: SKTexture, onto spriteNode: SKSpriteNode, duration: CFTimeInterval) {
+        let fadeInSpriteNode = fadeInSprite(with: newTexture, spriteNode: spriteNode)
+        spriteNode.parent?.addChild(fadeInSpriteNode)
+        fadeInSpriteNode.run(SKAction.sequence([
+            SKAction.fadeAlpha(to: 1, duration: duration),
+            SKAction.run {
+                fadeInSpriteNode.removeFromParent()
+                spriteNode.texture = newTexture
+            }
+        ]))
+    }
+    
+    func fadeInSprite(with texture: SKTexture, spriteNode: SKSpriteNode) -> SKSpriteNode {
+        let fadeInSprite = SKSpriteNode(texture: texture, size: spriteNode.size)
+        fadeInSprite.alpha = 0
+        fadeInSprite.anchorPoint = spriteNode.anchorPoint
+        fadeInSprite.position = spriteNode.position
+        
+        return fadeInSprite
+    }
 }
+
+
 
 class GameScene: SKScene {
     
@@ -135,6 +160,8 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         cards = game.draw()
 //        cards = game.addCards()
+        
+        backgroundColor = UIColor(white: 0.9, alpha: 1)
 
         let sampleCard = GameCard(card: cards.first!)
         let ratio = sampleCard.size.width / sampleCard.size.height
@@ -155,7 +182,6 @@ class GameScene: SKScene {
         for j in stride(from: height / 2, through: toHeight, by: height) {
             for i in stride(from: width / 2, through: toWidth, by: width) {
                 if item >= 15 || row > rows || column > columns { continue }
-                print("row: \(row) - column: \(column)")
                 let card = GameCard(card: cards[item])
                 card.position = CGPoint(x: i + CGFloat(column) * cardSpacing, y: j + CGFloat(row) * cardSpacing)
                 card.setScale(scale)
