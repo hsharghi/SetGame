@@ -12,7 +12,7 @@ import SetGameEngine
 
 class GameCard: SKSpriteNode {
     
-    private let selectionScale: CGFloat = 1.1
+    private let selectionScale: CGFloat = 1.15
     var card: Card
     var isSelected: Bool = false {
         didSet {
@@ -149,23 +149,122 @@ class GameCard: SKSpriteNode {
 }
 
 
-
 class GameScene: SKScene {
+    
+    typealias Board = [[GameCard?]]
     
     var game = Engine(players: 1)
     var cards = [Card]()
+    var board = Board()
     var selectedCards = Set<GameCard>()
-    let cardSpacing: CGFloat = 15
+    let cardSpacing: CGFloat = 5
+    
+    var boardWidth: CGFloat = 0
+    var boardHeight: CGFloat = 0
+    
     let columns = 4
     let rows = 3
     
     override func didMove(to view: SKView) {
+        
+        board = Board(repeating: [GameCard?](repeating: nil, count: columns + 1), count: rows)
+        
         cards = game.draw()
-//        cards = game.addCards()
+        fillBoard(with: cards)
+        drawBoard()
         
         backgroundColor = UIColor(white: 0.9, alpha: 1)
-        putCardsOnTable(cards: cards)
+//        putCardsOnTable(cards: cards)
         setupUI()
+    }
+    
+    func fillBoard(with cards: [Card]) {
+        
+//        guard cards.count >= columns * rows else { return }
+        
+        let scale = calculateCardScale(for: cards)
+        
+        // pass 1: fill empty slots with new cards
+        var item = 0
+        for row in 0..<rows {
+            for column in 0..<columns {
+                if board[row][column] == nil {
+                    let card = GameCard(card: cards[item], initialScale: scale)
+                    card.position = CGPoint(x: -1000, y: -1000)
+                    addChild(card)
+                    board[row][column] = card
+                    item += 1
+                }
+            }
+        }
+//
+//        // pass 2: fill other slots
+//        for row in 0..<rows {
+//            for column in 0..<columns+1 {
+//                if board[row][column] == nil {
+//                    let card = GameCard(card: cards[item], initialScale: scale)
+//                    card.position = CGPoint(x: -1000, y: -1000)
+//                    addChild(card)
+//                    board[row][column] = card
+//                    item += 1
+//                }
+//            }
+//        }
+        
+    }
+    
+    func foundFirstGameCard(board: Board) -> GameCard? {
+        for row in board {
+            for item in row {
+                if item != nil { return item! }
+            }
+        }
+        return nil
+    }
+    
+    func removeFromBoard(cards: [Card], redraw: Bool = false) {
+        cards.forEach { (card) in
+            for row in 0..<rows {
+                for column in 0..<columns {
+                    if board[row][column]?.card == card {
+                        board[row][column]?.removeFromParent()
+                        board[row][column] = nil
+                    }
+                }
+            }
+        }
+    }
+    
+    func drawBoard() {
+        guard let sampleGameCard = foundFirstGameCard(board: board) else { return }
+
+        let width = sampleGameCard.size.width
+        let height = sampleGameCard.size.height
+        for row in 0..<rows {
+            for column in 0..<columns {
+                let x = CGFloat(column) * width + width / 2
+                let y = CGFloat(row) * height + height / 2
+                let position = CGPoint(x: x, y: y)
+                if let card = board[row][column] {
+                    card.position = position
+                }
+            }
+        }
+
+    }
+    
+    func calculateCardScale(for cards: [Card]) -> CGFloat {
+        let sampleCard = GameCard(card: cards.first!)
+        let ratio = sampleCard.size.width / sampleCard.size.height
+        
+        let estimatedWidth = (frame.width - CGFloat(columns + 1) * cardSpacing) / CGFloat(columns)
+        let estimatedHeight = (frame.height - CGFloat(rows + 1) * cardSpacing) / CGFloat(rows)
+        boardWidth = min(estimatedWidth, estimatedHeight * ratio)
+        boardHeight = boardWidth / ratio
+        
+        let scale = boardWidth / sampleCard.size.width
+        
+        return scale
     }
     
     func setupUI() {
@@ -176,43 +275,19 @@ class GameScene: SKScene {
         addChild(setButton)
         
         let findSetButton = SKSpriteNode(imageNamed: "set-button-shadow")
-        findSetButton.position = CGPoint(x: frame.width - 100, y: frame.midY - 200)
+        findSetButton.position = CGPoint(x: frame.width - 100, y: frame.midY - 150)
         findSetButton.size = CGSize(width: 100,height: 100)
         findSetButton.name = "findSetButton"
         addChild(findSetButton)
 
+        let redrawButton = SKSpriteNode(imageNamed: "set-button-shadow")
+        redrawButton.position = CGPoint(x: frame.width - 100, y: frame.midY + 150)
+        redrawButton.size = CGSize(width: 100,height: 100)
+        redrawButton.name = "redrawButton"
+        addChild(redrawButton)
+
     }
     
-    func putCardsOnTable(cards: [Card]) {
-            let sampleCard = GameCard(card: cards.first!)
-            let ratio = sampleCard.size.width / sampleCard.size.height
-            
-            let estimatedWidth = (frame.width - CGFloat(columns + 1) * cardSpacing) / CGFloat(columns)
-            let estimatedHeight = (frame.height - CGFloat(rows + 1) * cardSpacing) / CGFloat(rows)
-            let width = min(estimatedWidth, estimatedHeight * ratio)
-            let height = width / ratio
-            
-            let scale = width / sampleCard.size.width
-            var item = 0
-        
-            let toHeight = height * CGFloat(rows) + CGFloat(rows + 1) * cardSpacing
-            let toWidth = width * CGFloat(columns) + CGFloat(columns + 1) * cardSpacing
-                    
-            var column = 1
-            var row = 1
-            for j in stride(from: height / 2, through: toHeight, by: height) {
-                for i in stride(from: width / 2, through: toWidth, by: width) {
-                    if item >= 15 || row > rows || column > columns { continue }
-                    let card = GameCard(card: cards[item], initialScale: scale)
-                    card.position = CGPoint(x: i + CGFloat(column) * cardSpacing, y: j + CGFloat(row) * cardSpacing)
-                    addChild(card)
-                    item += 1
-                    column += 1
-                }
-                row += 1
-                column = 1
-            }
-    }
     
     func toggleCardSelection(card: GameCard) {
         if !card.isSelected {
@@ -231,6 +306,18 @@ class GameScene: SKScene {
         selectedCards.insert(card)
     }
     
+    func redrawButtonTapped(on button: SKSpriteNode) {
+        button.fadeTexture(to: SKTexture(imageNamed: "set-button"), duration: 0.2)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            button.fadeTexture(to: SKTexture(imageNamed: "set-button-shadow"), duration: 0.2)
+        }
+        
+        let newCards = game.draw()
+        cards += newCards
+        fillBoard(with: newCards)
+        drawBoard()
+    }
+    
     func setButtonTapped(on button: SKSpriteNode) {
         button.fadeTexture(to: SKTexture(imageNamed: "set-button"), duration: 0.2)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -239,7 +326,8 @@ class GameScene: SKScene {
         if game.isSet(of: selectedCards.compactMap{ $0.card }) {
             print("!!! SET !!!")
             cards = game.setFound(set: selectedCards.compactMap{ $0.card })
-            putCardsOnTable(cards: cards)
+            removeFromBoard(cards: selectedCards.compactMap{ $0.card })
+            drawBoard()
         } else {
             print(" RIDI ")
         }
@@ -300,6 +388,10 @@ class GameScene: SKScene {
         
         if let button = nodes(at: pos).first(where: { $0.name == "findSetButton" }) as? SKSpriteNode {
             findSetButtonTapped(on: button)
+        }
+
+        if let button = nodes(at: pos).first(where: { $0.name == "redrawButton" }) as? SKSpriteNode {
+            redrawButtonTapped(on: button)
         }
     }
     
