@@ -19,6 +19,8 @@
 		0F54CC4D242CC855004D166A /* SetGameEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0F54CC4C242CC855004D166A /* SetGameEngine */; };
 		0F59C822242D015D00A05998 /* SHKColorNonAlpha.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */; };
 		0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */; };
+		0FE2C1DA242F90A50070F55E /* GameCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE2C1D9242F90A50070F55E /* GameCard.swift */; };
+		0FE2C1DC242F914D0070F55E /* GameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FE2C1DB242F914D0070F55E /* GameBoard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		0F54CC4A242CC7F6004D166A /* SetGameEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SetGameEngine; path = ../SetGameEngine; sourceTree = "<group>"; };
 		0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SHKColorNonAlpha.fsh; sourceTree = "<group>"; };
 		0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderKitExtensions.swift; sourceTree = "<group>"; };
+		0FE2C1D9242F90A50070F55E /* GameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCard.swift; sourceTree = "<group>"; };
+		0FE2C1DB242F914D0070F55E /* GameBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,8 @@
 				0F54CC24242CC6A6004D166A /* AppDelegate.swift */,
 				0F54CC26242CC6A6004D166A /* GameScene.sks */,
 				0F54CC2A242CC6A6004D166A /* GameScene.swift */,
+				0FE2C1DB242F914D0070F55E /* GameBoard.swift */,
+				0FE2C1D9242F90A50070F55E /* GameCard.swift */,
 				0F54CC2C242CC6A6004D166A /* GameViewController.swift */,
 				0F54CC2E242CC6A6004D166A /* Main.storyboard */,
 				0F54CC31242CC6AC004D166A /* Assets.xcassets */,
@@ -238,7 +244,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */,
+				0FE2C1DA242F90A50070F55E /* GameCard.swift in Sources */,
 				0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */,
+				0FE2C1DC242F914D0070F55E /* GameBoard.swift in Sources */,
 				0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */,
 				0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */,
 				0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */,

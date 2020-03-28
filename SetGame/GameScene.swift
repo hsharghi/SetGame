@@ -7,147 +7,7 @@
 //
 
 import SpriteKit
-import GameplayKit
 import SetGameEngine
-
-class GameCard: SKSpriteNode {
-    
-    private let selectionScale: CGFloat = 1.15
-    var card: Card
-    var isSelected: Bool = false {
-        didSet {
-            setSelected(selected: isSelected)
-        }
-    }
-    
-    init(card: Card, initialScale: CGFloat = 1) {
-        self.card = card
-        let bgtexture = SKTexture(imageNamed: "card")
-        super.init(texture: bgtexture, color: SKColor.clear, size: bgtexture.size())
-        
-        self.size = CGSize(width: self.size.width * initialScale, height: self.size.height * initialScale)
-        var icons: [SKSpriteNode]
-        let shader = GameCard.createColorNonAlpha(color: GameCard.getCardColor(card: card))
-        icons = (1...card.count).map { _ in SKSpriteNode(texture: SKTexture(imageNamed: GameCard.getFileName(for: card))) }
-        icons.forEach { icon in
-            icon.shader = shader
-            icon.name = "card"
-            icon.size = CGSize(width: icon.size.width * initialScale, height: icon.size.height * initialScale)
-        }
-        switch card.count {
-        case 1:
-            if let icon = icons.first {
-                icon.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-                self.addChild(icon)
-            }
-        case 2:
-            let icon1 = icons[0]
-            let icon2 = icons[1]
-            icon1.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 0.75 * icon1.size.height)
-            icon2.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 0.75 * icon1.size.height)
-            self.addChild(icon1)
-            self.addChild(icon2)
-            
-        case 3:
-            let icon1 = icons[0]
-            let icon2 = icons[1]
-            let icon3 = icons[2]
-            icon1.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-            icon2.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 1.5 * icon1.size.height)
-            icon3.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 1.5 * icon1.size.height)
-            self.addChild(icon1)
-            self.addChild(icon2)
-            self.addChild(icon3)
-            
-        default: print("eybaba \(card.count)")
-        }
-        
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    static func createColorNonAlpha(color: SKColor) -> SKShader {
-        let uniforms: [SKUniform] = [
-            SKUniform(name: "u_color", color: color)
-        ]
-        
-        return SKShader(fromFile: "SHKColorNonAlpha", uniforms: uniforms)
-    }
-    
-    static func getFileName(for card: Card) -> String {
-        var name = ""
-        switch card.shape {
-        case .capsule:
-            name = "capsule"
-        case .eyebrow:
-            name = "eyebrow"
-        case .rhombus:
-            name = "rhombus"
-        }
-        
-        name += "-"
-        
-        switch card.fill {
-        case .empty:
-            name += "empty"
-        case .hatch:
-            name += "hatch"
-        case .solid:
-            name += "solid"
-        }
-        
-        return name
-    }
-    
-    static func getCardColor(card: Card) -> SKColor {
-        switch card.color {
-        case .blue:
-            return .blue
-        case .green:
-            return .green
-        case .red:
-            return .red
-        }
-    }
-    
-    private func setSelected(selected: Bool) {
-        if selected {
-            self.zPosition = 100
-            self.fadeTexture(to: SKTexture(imageNamed: "shadow"), duration: 0.2)
-            self.run(SKAction.scale(to: selectionScale, duration: 0.2))
-        } else {
-            self.zPosition = 0
-            self.fadeTexture(to: SKTexture(imageNamed: "card"), duration: 0.2)
-            self.run(SKAction.scale(to: 1, duration: 0.2))
-        }
-    }
-    
-    func fadeTexture(newTexture: SKTexture, onto spriteNode: SKSpriteNode, duration: CFTimeInterval) {
-        let fadeInSpriteNode = fadeInSprite(with: newTexture, spriteNode: spriteNode)
-        spriteNode.parent?.addChild(fadeInSpriteNode)
-        fadeInSpriteNode.run(SKAction.sequence([
-            SKAction.fadeAlpha(to: 1, duration: duration),
-            SKAction.run {
-                fadeInSpriteNode.removeFromParent()
-                spriteNode.texture = newTexture
-            }
-        ]))
-    }
-    
-    func fadeInSprite(with texture: SKTexture, spriteNode: SKSpriteNode) -> SKSpriteNode {
-        let fadeInSprite = SKSpriteNode(texture: texture, size: spriteNode.size)
-        fadeInSprite.alpha = 0
-        fadeInSprite.anchorPoint = spriteNode.anchorPoint
-        fadeInSprite.position = spriteNode.position
-        
-        return fadeInSprite
-    }
-}
-
 
 class GameScene: SKScene {
     
@@ -155,7 +15,7 @@ class GameScene: SKScene {
     
     var game = Engine(players: 1)
     var cards = [Card]()
-    var board = Board()
+    var board: GameBoard?
     var selectedCards = Set<GameCard>()
     let cardSpacing: CGFloat = 5
     
@@ -167,104 +27,16 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        board = Board(repeating: [GameCard?](repeating: nil, count: columns + 1), count: rows)
+        
+        board = GameBoard(rows: rows, columns: columns, spacing: cardSpacing, scene: self)
         
         cards = game.draw()
-        fillBoard(with: cards)
-        drawBoard()
+        board?.fill(with: cards)
+        board?.draw()
         
         backgroundColor = UIColor(white: 0.9, alpha: 1)
 //        putCardsOnTable(cards: cards)
         setupUI()
-    }
-    
-    func fillBoard(with cards: [Card]) {
-        
-//        guard cards.count >= columns * rows else { return }
-        
-        let scale = calculateCardScale(for: cards)
-        
-        // pass 1: fill empty slots with new cards
-        var item = 0
-        for row in 0..<rows {
-            for column in 0..<columns {
-                if board[row][column] == nil {
-                    let card = GameCard(card: cards[item], initialScale: scale)
-                    card.position = CGPoint(x: -1000, y: -1000)
-                    addChild(card)
-                    board[row][column] = card
-                    item += 1
-                }
-            }
-        }
-//
-//        // pass 2: fill other slots
-//        for row in 0..<rows {
-//            for column in 0..<columns+1 {
-//                if board[row][column] == nil {
-//                    let card = GameCard(card: cards[item], initialScale: scale)
-//                    card.position = CGPoint(x: -1000, y: -1000)
-//                    addChild(card)
-//                    board[row][column] = card
-//                    item += 1
-//                }
-//            }
-//        }
-        
-    }
-    
-    func foundFirstGameCard(board: Board) -> GameCard? {
-        for row in board {
-            for item in row {
-                if item != nil { return item! }
-            }
-        }
-        return nil
-    }
-    
-    func removeFromBoard(cards: [Card], redraw: Bool = false) {
-        cards.forEach { (card) in
-            for row in 0..<rows {
-                for column in 0..<columns {
-                    if board[row][column]?.card == card {
-                        board[row][column]?.removeFromParent()
-                        board[row][column] = nil
-                    }
-                }
-            }
-        }
-    }
-    
-    func drawBoard() {
-        guard let sampleGameCard = foundFirstGameCard(board: board) else { return }
-
-        let width = sampleGameCard.size.width
-        let height = sampleGameCard.size.height
-        for row in 0..<rows {
-            for column in 0..<columns {
-                let x = CGFloat(column) * width + width / 2
-                let y = CGFloat(row) * height + height / 2
-                let position = CGPoint(x: x, y: y)
-                if let card = board[row][column] {
-                    card.position = position
-                }
-            }
-        }
-
-    }
-    
-    func calculateCardScale(for cards: [Card]) -> CGFloat {
-        let sampleCard = GameCard(card: cards.first!)
-        let ratio = sampleCard.size.width / sampleCard.size.height
-        
-        let estimatedWidth = (frame.width - CGFloat(columns + 1) * cardSpacing) / CGFloat(columns)
-        let estimatedHeight = (frame.height - CGFloat(rows + 1) * cardSpacing) / CGFloat(rows)
-        boardWidth = min(estimatedWidth, estimatedHeight * ratio)
-        boardHeight = boardWidth / ratio
-        
-        let scale = boardWidth / sampleCard.size.width
-        
-        return scale
     }
     
     func setupUI() {
@@ -314,8 +86,8 @@ class GameScene: SKScene {
         
         let newCards = game.draw()
         cards += newCards
-        fillBoard(with: newCards)
-        drawBoard()
+        board?.fill(with: newCards)
+        board?.draw()
     }
     
     func setButtonTapped(on button: SKSpriteNode) {
@@ -326,8 +98,8 @@ class GameScene: SKScene {
         if game.isSet(of: selectedCards.compactMap{ $0.card }) {
             print("!!! SET !!!")
             cards = game.setFound(set: selectedCards.compactMap{ $0.card })
-            removeFromBoard(cards: selectedCards.compactMap{ $0.card })
-            drawBoard()
+            board?.remove(cards: selectedCards.compactMap{ $0.card })
+            board?.draw()
         } else {
             print(" RIDI ")
         }
