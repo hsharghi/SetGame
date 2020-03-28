@@ -68,8 +68,8 @@ class GameBoard {
         let height = sampleGameCard.size.height
         for row in 0..<rows {
             for column in 0..<columns {
-                let x = CGFloat(column) * width + width / 2
-                let y = CGFloat(row) * height + height / 2
+                let x = CGFloat(column) * width + width / 2 + CGFloat(column + 1) * cardSpacing
+                let y = CGFloat(row) * height + height / 2 + CGFloat(row + 1) * cardSpacing
                 let position = CGPoint(x: x, y: y)
                 if let card = board[row][column] {
                     card.position = position

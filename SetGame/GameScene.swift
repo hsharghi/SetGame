@@ -100,6 +100,7 @@ class GameScene: SKScene {
             cards = game.setFound(set: selectedCards.compactMap{ $0.card })
             board?.remove(cards: selectedCards.compactMap{ $0.card })
             board?.draw()
+            selectedCards.removeAll()
         } else {
             print(" RIDI ")
         }
