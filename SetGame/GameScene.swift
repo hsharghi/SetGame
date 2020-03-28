@@ -12,6 +12,7 @@ import SetGameEngine
 
 class GameCard: SKSpriteNode {
     
+    private let selectionScale = 1.1
     var card: Card
     var isSelected: Bool = false {
         didSet {
@@ -115,11 +116,11 @@ class GameCard: SKSpriteNode {
         if selected {
             self.zPosition = 100
             self.fadeTexture(to: SKTexture(imageNamed: "shadow"), duration: 0.2)
-            self.run(SKAction.scale(to: self.xScale * 1.05, duration: 0.2))
+            self.run(SKAction.scale(to: self.xScale * selectionScale, duration: 0.2))
         } else {
             self.zPosition = 0
             self.fadeTexture(to: SKTexture(imageNamed: "card"), duration: 0.2)
-            self.run(SKAction.scale(to: self.xScale / 1.05, duration: 0.2))
+            self.run(SKAction.scale(to: self.xScale / selectionScale, duration: 0.2))
         }
     }
     
