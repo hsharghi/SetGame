@@ -12,7 +12,7 @@ import SetGameEngine
 
 class GameCard: SKSpriteNode {
     
-    private let selectionScale = 1.1
+    private let selectionScale: CGFloat = 1.1
     var card: Card
     var isSelected: Bool = false {
         didSet {
