@@ -12,14 +12,14 @@ import SetGameEngine
 class GameBoard {
     typealias Board = [[GameCard?]]
 
-    var board: Board
-    var width: CGFloat = 0
-    var height: CGFloat = 0
+    private var board: Board
     private var scene: SKScene
     private var rows: Int
     private var columns: Int
     private var cardSpacing: CGFloat
-    
+    private var width: CGFloat = 0
+    private var height: CGFloat = 0
+
     init(rows: Int, columns: Int, spacing: CGFloat, scene: SKScene) {
         self.rows = rows
         self.columns = columns
@@ -28,7 +28,19 @@ class GameBoard {
         board = Board(repeating: [GameCard?](repeating: nil, count: columns + 1), count: rows)
     }
     
+    public var cardCount: Int {
+        var count = 0
+        for row in board {
+            for card in row {
+                count += card == nil ? 0 : 1
+            }
+        }
+        
+        return count
+    }
+    
     public func fill(with cards: [Card]) {
+        guard cards.count > 0 else { return }
         
         let scale = calculateCardScale(for: cards, in: scene)
         
@@ -43,6 +55,15 @@ class GameBoard {
                     board[row][column] = card
                     item += 1
                 }
+            }
+        }
+    }
+    
+    public func empty() {
+        for row in 0..<rows {
+            for column in 0..<columns {
+                board[row][column]?.removeFromParent()
+                board[row][column] = nil
             }
         }
     }

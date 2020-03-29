@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F43F61C2430A465000E85B7 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */; };
 		0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */; };
 		0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC24242CC6A6004D166A /* AppDelegate.swift */; };
 		0F54CC27242CC6A6004D166A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC26242CC6A6004D166A /* GameScene.sks */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+Extensions.swift"; sourceTree = "<group>"; };
 		0F54CC21242CC6A6004D166A /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F54CC24242CC6A6004D166A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				0F54CC36242CC6AC004D166A /* Info.plist */,
 				0F59C825242D6E7A00A05998 /* Shaders */,
 				0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */,
+				0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */,
 				0FE2C1DA242F90A50070F55E /* GameCard.swift in Sources */,
 				0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */,
+				0F43F61C2430A465000E85B7 /* UIColor+Extensions.swift in Sources */,
 				0FE2C1DC242F914D0070F55E /* GameBoard.swift in Sources */,
 				0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */,
 				0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */,
@@ -410,6 +414,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 923H768GFC;
 				INFOPLIST_FILE = SetGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -427,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 923H768GFC;
 				INFOPLIST_FILE = SetGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

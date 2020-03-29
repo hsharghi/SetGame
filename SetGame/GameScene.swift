@@ -17,25 +17,21 @@ class GameScene: SKScene {
     var cards = [Card]()
     var board: GameBoard?
     var selectedCards = Set<GameCard>()
-    let cardSpacing: CGFloat = 5
     
-    var boardWidth: CGFloat = 0
-    var boardHeight: CGFloat = 0
-    
-    let columns = 4
-    let rows = 3
     
     override func didMove(to view: SKView) {
         
-        
-        board = GameBoard(rows: rows, columns: columns, spacing: cardSpacing, scene: self)
+        backgroundColor = UIColor(white: 0.9, alpha: 1)
+
+        board = GameBoard(rows: 3, columns: 4, spacing: 5, scene: self)
         
         cards = game.draw()
+        game.delegate = self
+        
+        
         board?.fill(with: cards)
         board?.draw()
         
-        backgroundColor = UIColor(white: 0.9, alpha: 1)
-//        putCardsOnTable(cards: cards)
         setupUI()
     }
     
@@ -199,4 +195,53 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    func alert(text: String, color: UIColor = .black) {
+        children.first(where: {$0 is SKLabelNode})?.removeFromParent()
+        
+        let label = SKLabelNode(text: text)
+        label.color = color
+        label.position = CGPoint(x: frame.midX, y: frame.maxY)
+        label.setScale(0.00001)
+        label.alpha = 0
+        addChild(label)
+        SKAction.sequence([
+            SKAction.group([
+                SKAction.fadeAlpha(to: 1, duration: 0.5),
+                SKAction.scale(to: 1, duration: 0.5),
+            ]),
+            SKAction.wait(forDuration: 0.2),
+            SKAction.group([
+                SKAction.fadeAlpha(to: 0, duration: 0.5),
+                SKAction.scale(to: 10, duration: 0.5)
+            ]),
+        ])
+    }
+    
+}
+
+
+extension GameScene: GameEngineDelegate {
+    func noSetFound() {
+        
+        alert(text: "No set found")
+        
+        print("no set found")
+        if board?.cardCount == 12 {
+            cards = game.redraw()
+            board?.empty()
+            board?.fill(with: cards)
+            board?.draw()
+        }
+    }
+    
+    func noMoreCards() {
+        print("no more cards")
+    }
+    
+    func gameEnded() {
+        print("game ended")
+    }
+    
+    
 }
