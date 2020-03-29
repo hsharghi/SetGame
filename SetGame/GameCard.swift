@@ -11,6 +11,10 @@ import SpriteKit
 import SetGameEngine
 
 class GameCard: SKSpriteNode {
+
+    static let colorRed = UIColor(hex: "d22519")
+    static let colorGreen = UIColor(hex: "0b930b")
+    static let colorBlue = UIColor(hex: "0033cc")
     
     private let selectionScale: CGFloat = 1.15
     var card: Card
@@ -106,23 +110,23 @@ class GameCard: SKSpriteNode {
     static func getCardColor(card: Card) -> SKColor {
         switch card.color {
         case .blue:
-            return .blue
+            return GameCard.colorBlue
         case .green:
-            return .green
+            return GameCard.colorGreen
         case .red:
-            return .red
+            return GameCard.colorRed
         }
     }
     
     private func setSelected(selected: Bool) {
         if selected {
             self.zPosition = 100
-            self.fadeTexture(to: SKTexture(imageNamed: "shadow"), duration: 0.2)
-            self.run(SKAction.scale(to: selectionScale, duration: 0.2))
+            self.fadeTexture(to: SKTexture(imageNamed: "shadow"), duration: 0.1)
+            self.run(SKAction.scale(to: selectionScale, duration: 0.1))
         } else {
             self.zPosition = 0
-            self.fadeTexture(to: SKTexture(imageNamed: "card"), duration: 0.2)
-            self.run(SKAction.scale(to: 1, duration: 0.2))
+            self.fadeTexture(to: SKTexture(imageNamed: "card"), duration: 0.1)
+            self.run(SKAction.scale(to: 1, duration: 0.1))
         }
     }
     
