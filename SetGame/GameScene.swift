@@ -93,8 +93,8 @@ class GameScene: SKScene {
         }
         if game.isSet(of: selectedCards.compactMap{ $0.card }) {
             print("!!! SET !!!")
-            cards = game.setFound(set: selectedCards.compactMap{ $0.card })
             board?.remove(cards: selectedCards.compactMap{ $0.card })
+            cards = game.setFound(set: selectedCards.compactMap{ $0.card })
             board?.draw()
             selectedCards.removeAll()
         } else {

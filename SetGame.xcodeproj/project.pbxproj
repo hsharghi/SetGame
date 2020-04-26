@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F43F61C2430A465000E85B7 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */; };
+		0F4DA1EC2455ADBE00A0C7C4 /* SetGameEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0F4DA1EB2455ADBE00A0C7C4 /* SetGameEngine */; };
 		0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */; };
 		0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F54CC24242CC6A6004D166A /* AppDelegate.swift */; };
 		0F54CC27242CC6A6004D166A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0F54CC26242CC6A6004D166A /* GameScene.sks */; };
@@ -49,7 +50,6 @@
 		0F54CC3B242CC6AC004D166A /* SetGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F54CC3F242CC6AC004D166A /* SetGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameTests.swift; sourceTree = "<group>"; };
 		0F54CC41242CC6AD004D166A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0F54CC4A242CC7F6004D166A /* SetGameEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SetGameEngine; path = ../SetGameEngine; sourceTree = "<group>"; };
 		0F59C821242D015D00A05998 /* SHKColorNonAlpha.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = SHKColorNonAlpha.fsh; sourceTree = "<group>"; };
 		0F59C823242D6E6600A05998 /* ShaderKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderKitExtensions.swift; sourceTree = "<group>"; };
 		0FE2C1D9242F90A50070F55E /* GameCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCard.swift; sourceTree = "<group>"; };
@@ -62,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F54CC4D242CC855004D166A /* SetGameEngine in Frameworks */,
+				0F4DA1EC2455ADBE00A0C7C4 /* SetGameEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +82,6 @@
 				0F54CC23242CC6A6004D166A /* SetGame */,
 				0F54CC3E242CC6AC004D166A /* SetGameTests */,
 				0F54CC22242CC6A6004D166A /* Products */,
-				0F54CC4A242CC7F6004D166A /* SetGameEngine */,
 				0F54CC4B242CC855004D166A /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -158,6 +158,7 @@
 			name = SetGame;
 			packageProductDependencies = (
 				0F54CC4C242CC855004D166A /* SetGameEngine */,
+				0F4DA1EB2455ADBE00A0C7C4 /* SetGameEngine */,
 			);
 			productName = SetGame;
 			productReference = 0F54CC21242CC6A6004D166A /* SetGame.app */;
@@ -209,6 +210,9 @@
 				Base,
 			);
 			mainGroup = 0F54CC18242CC6A6004D166A;
+			packageReferences = (
+				0F4DA1EA2455ADBE00A0C7C4 /* XCRemoteSwiftPackageReference "SetGameEngine" */,
+			);
 			productRefGroup = 0F54CC22242CC6A6004D166A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -519,7 +523,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		0F4DA1EA2455ADBE00A0C7C4 /* XCRemoteSwiftPackageReference "SetGameEngine" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hsharghi/SetGameEngine";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		0F4DA1EB2455ADBE00A0C7C4 /* SetGameEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F4DA1EA2455ADBE00A0C7C4 /* XCRemoteSwiftPackageReference "SetGameEngine" */;
+			productName = SetGameEngine;
+		};
 		0F54CC4C242CC855004D166A /* SetGameEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SetGameEngine;
