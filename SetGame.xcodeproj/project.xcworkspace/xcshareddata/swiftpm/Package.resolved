@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SetGameEngine",
+        "repositoryURL": "https://github.com/hsharghi/SetGameEngine",
+        "state": {
+          "branch": "master",
+          "revision": "07e1f590805ad8f536b3d198777e2e21c5cd9f18",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
