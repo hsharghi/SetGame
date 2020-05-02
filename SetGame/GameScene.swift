@@ -11,13 +11,27 @@ import SetGameEngine
 
 class GameScene: SKScene {
     
+    var players: [GamePlayer]
+    
+    init(size: CGSize, players: [GamePlayer]) {
+        self.players = players
+        if players.count == 1 {
+            currentPlayer = players.first
+        }
+        super.init(size: size)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+
     typealias Board = [[GameCard?]]
     
-    var game = Engine(players: 1)
+    var game = Engine(players: [GamePlayer(id: 1)])
     var cards = [Card]()
     var board: GameBoard?
     var selectedCards = Set<GameCard>()
-    
+    var currentPlayer: GamePlayer?
     
     override func didMove(to view: SKView) {
         
@@ -31,6 +45,7 @@ class GameScene: SKScene {
         
         board?.fill(with: cards)
         board?.draw()
+        board?.drawGameInfo(player: currentPlayer!, remainingCards: game.pileOfCards.count)
         
         setupUI()
     }
@@ -84,6 +99,7 @@ class GameScene: SKScene {
         cards += newCards
         board?.fill(with: newCards)
         board?.draw()
+        board?.drawGameInfo(player: currentPlayer!, remainingCards: game.pileOfCards.count)
     }
     
     func setButtonTapped(on button: SKSpriteNode) {
@@ -94,8 +110,9 @@ class GameScene: SKScene {
         if game.isSet(of: selectedCards.compactMap{ $0.card }) {
             print("!!! SET !!!")
             board?.remove(cards: selectedCards.compactMap{ $0.card })
-            cards = game.setFound(set: selectedCards.compactMap{ $0.card })
+            cards = game.setFound(set: selectedCards.compactMap{ $0.card }, for: &currentPlayer!)
             board?.draw()
+            board?.drawGameInfo(player: currentPlayer!, remainingCards: game.pileOfCards.count)
             selectedCards.removeAll()
         } else {
             print(" RIDI ")

@@ -14,16 +14,23 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let players = [
+            GamePlayer(id: 1),
+//        GamePlayer(id: 2),
+//        GamePlayer(id: 3),
+        ]
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            let scene = GameScene(size: UIScreen.main.bounds.size, players: players)
+//            if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .resizeFill
                 
                 // Present the scene
                 view.presentScene(scene)
-            }
+            
             
             view.ignoresSiblingOrder = true
             

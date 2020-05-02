@@ -82,6 +82,25 @@ class GameBoard {
 
     }
     
+    public func drawGameInfo(player: GamePlayer, remainingCards: Int) {
+        if let playerName =  scene.childNode(withName: "playerName") {
+            SKLabelNode(text: player.name)
+        }
+        playerName.name = playerName
+        ?.removeFromParent()
+        playerName.fontColor = .black
+        playerName.position = CGPoint(x: scene.frame.width - 100, y: 150)
+        scene.addChild(playerName)
+        let remainingCards = SKLabelNode(text: "Remaining cards: \(remainingCards)")
+        remainingCards.fontColor = .black
+        remainingCards.position = CGPoint(x: scene.frame.width - 150, y: 100)
+        scene.addChild(remainingCards)
+        let scoreLabel = SKLabelNode(text: "Score: \(player.score)")
+        scoreLabel.fontColor = .black
+        scoreLabel.position = CGPoint(x: scene.frame.width - 150, y: 50)
+        scene.addChild(scoreLabel)
+    }
+    
     public func draw() {
         guard let sampleGameCard = foundFirstGameCard(board: board) else { return }
 

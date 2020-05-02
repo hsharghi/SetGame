@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F3F3A01245DB0C90047E581 /* GamePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F3A00245DB0C90047E581 /* GamePlayer.swift */; };
+		0F3F3A03245DB3240047E581 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F3A02245DB3240047E581 /* Array+Extensions.swift */; };
 		0F43F61C2430A465000E85B7 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */; };
 		0F4DA1EC2455ADBE00A0C7C4 /* SetGameEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 0F4DA1EB2455ADBE00A0C7C4 /* SetGameEngine */; };
 		0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F3F3A00245DB0C90047E581 /* GamePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePlayer.swift; sourceTree = "<group>"; };
+		0F3F3A02245DB3240047E581 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKSpriteNode+Extensions.swift"; sourceTree = "<group>"; };
 		0F54CC21242CC6A6004D166A /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +107,7 @@
 				0F54CC2A242CC6A6004D166A /* GameScene.swift */,
 				0FE2C1DB242F914D0070F55E /* GameBoard.swift */,
 				0FE2C1D9242F90A50070F55E /* GameCard.swift */,
+				0F3F3A00245DB0C90047E581 /* GamePlayer.swift */,
 				0F54CC2C242CC6A6004D166A /* GameViewController.swift */,
 				0F54CC2E242CC6A6004D166A /* Main.storyboard */,
 				0F54CC31242CC6AC004D166A /* Assets.xcassets */,
@@ -111,6 +116,7 @@
 				0F59C825242D6E7A00A05998 /* Shaders */,
 				0F508220242DDE8000AE8083 /* SKSpriteNode+Extensions.swift */,
 				0F43F61B2430A465000E85B7 /* UIColor+Extensions.swift */,
+				0F3F3A02245DB3240047E581 /* Array+Extensions.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -251,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F54CC2B242CC6A6004D166A /* GameScene.swift in Sources */,
+				0F3F3A03245DB3240047E581 /* Array+Extensions.swift in Sources */,
 				0FE2C1DA242F90A50070F55E /* GameCard.swift in Sources */,
 				0F54CC2D242CC6A6004D166A /* GameViewController.swift in Sources */,
 				0F43F61C2430A465000E85B7 /* UIColor+Extensions.swift in Sources */,
@@ -258,6 +265,7 @@
 				0F54CC25242CC6A6004D166A /* AppDelegate.swift in Sources */,
 				0F59C824242D6E6600A05998 /* ShaderKitExtensions.swift in Sources */,
 				0F508221242DDE8000AE8083 /* SKSpriteNode+Extensions.swift in Sources */,
+				0F3F3A01245DB0C90047E581 /* GamePlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
