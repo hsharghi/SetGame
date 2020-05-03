@@ -54,23 +54,31 @@ class GameScene: SKScene {
         let setButton = SKSpriteNode(imageNamed: "set-button-shadow")
         setButton.position = CGPoint(x: frame.width - 100, y: frame.midY)
         setButton.size = CGSize(width: 100,height: 100)
-        setButton.name = "setButton"
+        setButton.name = "set-button"
         addChild(setButton)
         
         let findSetButton = SKSpriteNode(imageNamed: "find-button-shadow")
         findSetButton.position = CGPoint(x: frame.width - 100, y: frame.midY - 150)
         findSetButton.size = CGSize(width: 100,height: 100)
-        findSetButton.name = "findSetButton"
+        findSetButton.name = "find-button"
         addChild(findSetButton)
 
         let redrawButton = SKSpriteNode(imageNamed: "draw-button-shadow")
         redrawButton.position = CGPoint(x: frame.width - 100, y: frame.midY + 150)
         redrawButton.size = CGSize(width: 100,height: 100)
-        redrawButton.name = "redrawButton"
+        redrawButton.name = "draw-button"
         addChild(redrawButton)
 
     }
     
+    func simulatePushButtonAnimation(for button: SKSpriteNode) {
+        if let name = button.name {
+            button.fadeTexture(to: SKTexture(imageNamed: name), duration: 0.2)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                button.fadeTexture(to: SKTexture(imageNamed: "\(name)-shadow"), duration: 0.2)
+            }
+        }
+    }
     
     func toggleCardSelection(card: GameCard) {
         if !card.isSelected {
@@ -90,11 +98,7 @@ class GameScene: SKScene {
     }
     
     func redrawButtonTapped(on button: SKSpriteNode) {
-        button.fadeTexture(to: SKTexture(imageNamed: "draw-button"), duration: 0.2)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            button.fadeTexture(to: SKTexture(imageNamed: "draw-button-shadow"), duration: 0.2)
-        }
-        
+        simulatePushButtonAnimation(for: button)
         let newCards = game.draw()
         cards += newCards
         board?.fill(with: newCards)
@@ -103,10 +107,7 @@ class GameScene: SKScene {
     }
     
     func setButtonTapped(on button: SKSpriteNode) {
-        button.fadeTexture(to: SKTexture(imageNamed: "set-button"), duration: 0.2)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            button.fadeTexture(to: SKTexture(imageNamed: "set-button-shadow"), duration: 0.2)
-        }
+        simulatePushButtonAnimation(for: button)
         if game.isSet(of: selectedCards.compactMap{ $0.card }) {
             print("!!! SET !!!")
             board?.remove(cards: selectedCards.compactMap{ $0.card })
@@ -120,10 +121,7 @@ class GameScene: SKScene {
     }
     
     func findSetButtonTapped(on button: SKSpriteNode) {
-        button.fadeTexture(to: SKTexture(imageNamed: "find-button"), duration: 0.2)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            button.fadeTexture(to: SKTexture(imageNamed: "find-button-shadow"), duration: 0.2)
-        }
+        simulatePushButtonAnimation(for: button)
         let currentSetOfCards = currentSet()
         selectedCards.removeAll(keepingCapacity: true)
         selectedCards.forEach({$0.isSelected = false})
@@ -230,7 +228,6 @@ class GameScene: SKScene {
                 SKAction.fadeAlpha(to: 1, duration: 0.4),
                 SKAction.scale(to: 1, duration: 0.4),
             ]),
-//            SKAction.wait(forDuration: 0.1),
             SKAction.group([
                 SKAction.fadeAlpha(to: 0, duration: 0.8),
                 SKAction.scale(to: 10, duration: 0.8)
