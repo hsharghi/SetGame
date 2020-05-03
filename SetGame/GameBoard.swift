@@ -83,22 +83,40 @@ class GameBoard {
     }
     
     public func drawGameInfo(player: GamePlayer, remainingCards: Int) {
-        if let playerName =  scene.childNode(withName: "playerName") {
-            SKLabelNode(text: player.name)
+        var playerName: SKLabelNode
+        var remainingCardsLabel: SKLabelNode
+        var score: SKLabelNode
+        
+        if let label =  scene.childNode(withName: "playerName") as? SKLabelNode {
+            playerName = label
+        } else {
+            playerName = SKLabelNode(text: player.name)
+            playerName.name = "playerName"
+            playerName.fontColor = .black
+            playerName.position = CGPoint(x: scene.frame.width - 100, y: 150)
+            scene.addChild(playerName)
         }
-        playerName.name = playerName
-        ?.removeFromParent()
-        playerName.fontColor = .black
-        playerName.position = CGPoint(x: scene.frame.width - 100, y: 150)
-        scene.addChild(playerName)
-        let remainingCards = SKLabelNode(text: "Remaining cards: \(remainingCards)")
-        remainingCards.fontColor = .black
-        remainingCards.position = CGPoint(x: scene.frame.width - 150, y: 100)
-        scene.addChild(remainingCards)
-        let scoreLabel = SKLabelNode(text: "Score: \(player.score)")
-        scoreLabel.fontColor = .black
-        scoreLabel.position = CGPoint(x: scene.frame.width - 150, y: 50)
-        scene.addChild(scoreLabel)
+        if let label =  scene.childNode(withName: "remainingCards") as? SKLabelNode {
+            remainingCardsLabel = label
+            remainingCardsLabel.text =  "Remaining cards: \(remainingCards)"
+        } else {
+            remainingCardsLabel = SKLabelNode(text: "Remaining cards: \(remainingCards)")
+            remainingCardsLabel.name = "remainingCards"
+            remainingCardsLabel.fontColor = .black
+            remainingCardsLabel.position = CGPoint(x: scene.frame.width - 150, y: 100)
+            scene.addChild(remainingCardsLabel)
+        }
+
+        if let label =  scene.childNode(withName: "scoreLabel") as? SKLabelNode {
+            score = label
+            score.text = "Score: \(player.score)"
+        } else {
+            score = SKLabelNode(text: "Score: \(player.score)")
+            score.name = "scoreLabel"
+            score.fontColor = .black
+            score.position = CGPoint(x: scene.frame.width - 150, y: 50)
+            scene.addChild(score)
+        }
     }
     
     public func draw() {
