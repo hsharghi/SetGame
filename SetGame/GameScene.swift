@@ -214,25 +214,29 @@ class GameScene: SKScene {
     }
     
     func alert(text: String, color: UIColor = .black) {
-        children.first(where: {$0 is SKLabelNode})?.removeFromParent()
+        children.first(where: {$0 is SKLabelNode && $0.name == "alertLabel"})?.removeFromParent()
         
         let label = SKLabelNode(text: text)
-        label.color = color
-        label.position = CGPoint(x: frame.midX, y: frame.maxY)
+        label.fontName = "Helvetica Neue Bold"
+        label.fontColor = color
+        label.zPosition = 9999
+        label.name = "alertLabel"
+        label.position = CGPoint(x: frame.midX, y: frame.midY)
         label.setScale(0.00001)
-        label.alpha = 0
+        label.alpha = 1
         addChild(label)
-        SKAction.sequence([
+        let fadeAction = SKAction.sequence([
             SKAction.group([
-                SKAction.fadeAlpha(to: 1, duration: 0.5),
-                SKAction.scale(to: 1, duration: 0.5),
+                SKAction.fadeAlpha(to: 1, duration: 0.4),
+                SKAction.scale(to: 1, duration: 0.4),
             ]),
-            SKAction.wait(forDuration: 0.2),
+//            SKAction.wait(forDuration: 0.1),
             SKAction.group([
-                SKAction.fadeAlpha(to: 0, duration: 0.5),
-                SKAction.scale(to: 10, duration: 0.5)
+                SKAction.fadeAlpha(to: 0, duration: 0.8),
+                SKAction.scale(to: 10, duration: 0.8)
             ]),
         ])
+        label.run(fadeAction)
     }
     
 }
@@ -249,6 +253,11 @@ extension GameScene: GameEngineDelegate {
             board?.empty()
             board?.fill(with: cards)
             board?.draw()
+        }
+        
+        if game.pileOfCards.count == 66 {
+            print("Game over!!")
+            alert(text: "Game over!!!", color: .black)
         }
     }
     
