@@ -57,13 +57,13 @@ class GameScene: SKScene {
         setButton.name = "setButton"
         addChild(setButton)
         
-        let findSetButton = SKSpriteNode(imageNamed: "set-button-shadow")
+        let findSetButton = SKSpriteNode(imageNamed: "find-button-shadow")
         findSetButton.position = CGPoint(x: frame.width - 100, y: frame.midY - 150)
         findSetButton.size = CGSize(width: 100,height: 100)
         findSetButton.name = "findSetButton"
         addChild(findSetButton)
 
-        let redrawButton = SKSpriteNode(imageNamed: "set-button-shadow")
+        let redrawButton = SKSpriteNode(imageNamed: "draw-button-shadow")
         redrawButton.position = CGPoint(x: frame.width - 100, y: frame.midY + 150)
         redrawButton.size = CGSize(width: 100,height: 100)
         redrawButton.name = "redrawButton"
@@ -90,9 +90,9 @@ class GameScene: SKScene {
     }
     
     func redrawButtonTapped(on button: SKSpriteNode) {
-        button.fadeTexture(to: SKTexture(imageNamed: "set-button"), duration: 0.2)
+        button.fadeTexture(to: SKTexture(imageNamed: "draw-button"), duration: 0.2)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            button.fadeTexture(to: SKTexture(imageNamed: "set-button-shadow"), duration: 0.2)
+            button.fadeTexture(to: SKTexture(imageNamed: "draw-button-shadow"), duration: 0.2)
         }
         
         let newCards = game.draw()
@@ -120,9 +120,9 @@ class GameScene: SKScene {
     }
     
     func findSetButtonTapped(on button: SKSpriteNode) {
-        button.fadeTexture(to: SKTexture(imageNamed: "set-button"), duration: 0.2)
+        button.fadeTexture(to: SKTexture(imageNamed: "find-button"), duration: 0.2)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            button.fadeTexture(to: SKTexture(imageNamed: "set-button-shadow"), duration: 0.2)
+            button.fadeTexture(to: SKTexture(imageNamed: "find-button-shadow"), duration: 0.2)
         }
         let currentSetOfCards = currentSet()
         selectedCards.removeAll(keepingCapacity: true)
@@ -255,7 +255,7 @@ extension GameScene: GameEngineDelegate {
             board?.draw()
         }
         
-        if game.pileOfCards.count == 66 {
+        if game.pileOfCards.count == 0 {
             print("Game over!!")
             alert(text: "Game over!!!", color: .black)
         }
